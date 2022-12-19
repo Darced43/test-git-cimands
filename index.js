@@ -11,14 +11,15 @@ window.onload = function () {
       mb.classList.add('loaded');
       mb.classList.remove('loaded_hiding');
     }, 500);
-  }
+}
 
+// клик для выбора городов
 headerTopCity.addEventListener('click', function(){
     modalEnter.classList.toggle('enter__block')
-    console.log('asd')
     setTimeout(() => modalEnter.classList.toggle('enter__visible'), 50)
 })
 
+// получаем все города и создаём дом элементы
 async function getCity(){
     const response = await fetch('https://studika.ru/api/areas', {
         method: 'post'
@@ -63,7 +64,7 @@ modalEnterCityAll.addEventListener( 'mouseout', function(){
 
 
 
-
+//сравниваем все города с водом в input
 function showObl(){
     const oblCity = document.querySelectorAll('.obl__info p')
     inputVal = serchCities.value.trim()
@@ -92,10 +93,10 @@ function paintWords( str,post,len){
 
 serchCities.addEventListener('input', () => showObl()) 
 
+//массив всех городов
 const masSelectCiti = getLocalStorage()
 
 function choiseCities(){
-    createElemInArray()
     const oblInfo = document.querySelectorAll('.obl__info')
     oblInfo.forEach((item) => {
         item.addEventListener('click', function(){
@@ -128,17 +129,29 @@ function choiseCities(){
             }
         })
     })
+    createElemInArray()
 }
 
 const modalEnterSave = document.querySelector('.modal__enter__save')
 modalEnterSave.addEventListener('click', function(){
     localStorage.setItem('selectSiti', masSelectCiti)
-    console.log(masSelectCiti)
 })
 
 function getLocalStorage(){
-    const saveSiti = localStorage.getItem('selectSiti').split(',')
-    return saveSiti
+    if(localStorage.getItem('selectSiti') === ''){
+        console.log('bingo1')
+        localStorage.removeItem('selectSiti')
+        return []
+    } else if(localStorage.getItem('selectSiti') === null){
+        console.log('bingo2')
+        localStorage.removeItem('selectSiti')
+        return []
+
+    } else {
+        console.log('bongo')
+        const saveSiti = localStorage.getItem('selectSiti').split(',')
+        return saveSiti
+    }
 }
 
 function createElemInArray(){
